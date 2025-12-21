@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Backend server
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: navidad-reviews-server-prod
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      SERVER_PORT: 3000
+      ENV: prod
+      DB_URI_PROD: ${MONGODB_URI}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      JWT_EXPIRE: ${JWT_EXPIRE:-15m}
+      JWT_REFRESH_EXPIRE: ${JWT_REFRESH_EXPIRE:-7d}
+      FE_URI: ${FE_URI}
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 20s
+    networks:
+      - navidad-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # Frontend client with Nginx
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: navidad-reviews-client-prod
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - navidad-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+networks:
+  navidad-network:
+    driver: bridge

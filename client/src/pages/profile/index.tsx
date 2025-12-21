@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button"; // Adjust path
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth";
-import UserLayout from "@/components/user-layout";
+import Layout from "@/components/Layout";
 import { Card } from "@/components/ui/card";
 import Field from "@/components/form/field";
 import InputField from "@/components/form/field";
@@ -46,44 +46,53 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <UserLayout title="Edit your user profile settings">
-      <Card className="max-w-xl mx-auto p-4">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <Field
-            id="username"
-            name="username"
-            label="Username"
-            value={formData.username}
-            onChange={handleInputChange}
-            placeholder="Enter your name"
-          />
+    <Layout>
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-center mb-2">Mi Perfil</h2>
+          <p className="text-center text-gray-600">
+            Edita tu información personal
+          </p>
+        </div>
 
-          <InputField
-            id="email"
-            name="email"
-            label="Email"
-            type="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            placeholder="Enter your password"
-          />
+        <Card className="max-w-xl mx-auto p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <Field
+              id="username"
+              name="username"
+              label="Nombre de usuario"
+              value={formData.username}
+              onChange={handleInputChange}
+              placeholder="Ingresa tu nombre de usuario"
+            />
 
-          <TextareaField
-            label="Description"
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            placeholder="Tell us about yourself"
-          />
+            <InputField
+              id="email"
+              name="email"
+              label="Email"
+              type="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="Ingresa tu email"
+              disabled
+            />
 
-          {/* Submit Button */}
-          <Button type="submit" className="w-full" disabled={saving}>
-            {saving ? "Saving..." : "Save Changes"}
-          </Button>
-        </form>
-      </Card>
-    </UserLayout>
+            <TextareaField
+              label="Descripción"
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              placeholder="Cuéntanos sobre ti"
+            />
+
+            <Button type="submit" className="w-full" disabled={saving}>
+              {saving ? "Guardando..." : "Guardar Cambios"}
+            </Button>
+          </form>
+        </Card>
+      </div>
+    </Layout>
   );
 };
 

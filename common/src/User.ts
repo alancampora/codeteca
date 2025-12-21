@@ -3,4 +3,7 @@ export type IUser = {
   password?: string;
   username: string;
   googleId?: string;
+  description?: string;
+  _id?: string;
+  id?: string;
 };

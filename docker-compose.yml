@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Backend server
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: navidad-reviews-server-dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      SERVER_PORT: 3000
+      ENV: dev
+      DB_URI_DEV: ${MONGODB_URI}
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-in-production}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-your-refresh-token-secret}
+      JWT_EXPIRE: ${JWT_EXPIRE:-15m}
+      JWT_REFRESH_EXPIRE: ${JWT_REFRESH_EXPIRE:-7d}
+      FE_URI: ${FE_URI:-http://localhost:5173}
+    volumes:
+      - ./server/src:/app/src:ro
+      - ./common:/app/common:ro
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - navidad-network
+    command: npm run dev
+
+  # Frontend client
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: builder
+    container_name: navidad-reviews-client-dev
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:3000/api}
+      VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID:-}
+    volumes:
+      - ./client/src:/app/src:ro
+      - ./client/public:/app/public:ro
+      - ./common:/app/common:ro
+    depends_on:
+      - server
+    networks:
+      - navidad-network
+    command: npm run dev -- --host 0.0.0.0
+
+networks:
+  navidad-network:
+    driver: bridge
