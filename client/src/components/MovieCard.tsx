@@ -19,7 +19,7 @@ export function MovieCard({ movie }: MovieCardProps) {
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
           />
           {movie.isKidFriendly && (
-            <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+            <div className="absolute top-2 right-2 bg-green-800 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
               👶 Mantiene la magia
             </div>
           )}

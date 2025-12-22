@@ -13,6 +13,8 @@ import MoviesPage from "./pages/movies/index.tsx";
 import MovieDetailPage from "./pages/movies/detail.tsx";
 import ReviewFormPage from "./pages/movies/review.tsx";
 import ProtectedRoute from "./components/protected-route.tsx";
+import MagicLinkRequestPage from "./pages/magic-link/request.tsx";
+import MagicLinkVerifyPage from "./pages/magic-link/verify.tsx";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +66,14 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Singup />,
+  },
+  {
+    path: "/magic-link/request",
+    element: <MagicLinkRequestPage />,
+  },
+  {
+    path: "/magic-link/verify",
+    element: <MagicLinkVerifyPage />,
   },
 ]);
 

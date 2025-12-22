@@ -20,7 +20,7 @@ export function ChristmasRating({
   };
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center">
       {Array.from({ length: maxRating }, (_, i) => {
         const treeValue = i + 1;
         const isFilled = treeValue <= rating;

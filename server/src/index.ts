@@ -10,6 +10,7 @@ import loginRoutes from "./routes/Login";
 import userRoutes from "./routes/User";
 import movieRoutes from "./routes/Movie";
 import reviewRoutes from "./routes/Review";
+import magicLinkRoutes from "./routes/MagicLink";
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use("/api/login", loginRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/magic-link", magicLinkRoutes);
 
 app.listen(PORT, () => {
   const connectionString = process.env.MONGODB_URI;

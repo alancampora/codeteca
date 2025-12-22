@@ -101,7 +101,7 @@ export default function Login() {
               </Button>
             </form>
           </CardContent>
-          <CardFooter className="justify-center">
+          <CardFooter className="flex-col gap-3">
             <p className="text-sm text-center">
               Don't have an account?{" "}
               <Link
@@ -111,6 +111,16 @@ export default function Login() {
                 Click here to create your user
               </Link>
             </p>
+            <div className="w-full border-t pt-3">
+              <p className="text-sm text-center">
+                <Link
+                  to="/magic-link/request"
+                  className="text-red-600 hover:underline font-semibold"
+                >
+                  🎄 Iniciar sesión con enlace mágico
+                </Link>
+              </p>
+            </div>
           </CardFooter>
         </Card>
       </div>

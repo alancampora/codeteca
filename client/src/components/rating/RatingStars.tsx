@@ -22,7 +22,7 @@ export function RatingStars({
   };
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center">
       {Array.from({ length: maxRating }, (_, i) => {
         const starValue = i + 1;
         const isFilled = starValue <= rating;
